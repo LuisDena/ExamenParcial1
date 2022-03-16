@@ -55,7 +55,7 @@ namespace ExamenParcial1.Models
             }
         }
         public double? apostarPorColor(String color,String colorCasilla) {
-            if (color == colorCasilla)
+            if (color==(colorCasilla))
             {
                 return this._montoInicial = montoInicial+(_apuesta * 5);
 

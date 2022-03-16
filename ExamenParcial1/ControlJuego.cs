@@ -46,7 +46,8 @@ namespace ExamenParcial1
 
         private void retirarse()
         {
-            throw new NotImplementedException();
+            mostrarGananciaPerdida();
+            mostrarResultados();
         }
 
         private void showMenuHistorial()
@@ -74,7 +75,7 @@ namespace ExamenParcial1
                     showMenuHistorial();
                     break;
                 case 2:
-                    Console.WriteLine($"La ruleta he girado un total de: {numeros.Count}");
+                    Console.WriteLine($"La ruleta he girado un total de: {numeros.Count} veces");
                     showMenuHistorial();
                     break;
                 case 3:
@@ -109,7 +110,7 @@ namespace ExamenParcial1
             do
             {
                 Console.WriteLine("Bienvenido al menu de Apuesta");
-                Console.WriteLine("1.- Dinero para la apuesta");
+                Console.WriteLine("1.- Ingresar dinero a apostar");
                 Console.WriteLine("2.- Apostar Numero");
                 Console.WriteLine("3.- Apostar Color");
                 Console.WriteLine("4.- Apostar Par/Impar");
@@ -118,38 +119,59 @@ namespace ExamenParcial1
             switch (opcionSeleccionada)
             {
                 case 1:
+                    if (validaBalance() == false)
+                    {
+                        mostrarGananciaPerdida();
+                        break;
+                    }
                     Console.WriteLine("Ingrese la cantidad de dinero a apostar: ");
                     jugador.apostar(double.Parse(Console.ReadLine()));
                     Console.WriteLine($"Usted ha apostado: {jugador.apuesta} ahora cuenta con: {jugador.montoInicial}");
                     ruleta.girarRuleta();
                     numeros.Add(ruleta._numeroObtenido);
+                    mostrarResultados();
                     showMenuApuesta();
                     break;
                 case 2:
+                    if (validaBalance() == false)
+                    {
+                        mostrarGananciaPerdida();
+                        break;
+                    }
                     ruleta.imprimirCasillas();
                     Console.WriteLine("Ingrese al que numero quiere apostarle");
                     jugador.apostarANumero(int.Parse(Console.ReadLine()),ruleta._numeroObtenido);
-                    Console.WriteLine($"Se obtuvo la casilla:{ruleta._numeroObtenido},Color: ");
-                    Console.WriteLine($"Ahora tiene: {jugador.montoInicial}");
+                    Console.WriteLine($"Se obtuvo la casilla:{ruleta._numeroObtenido}");
+                    mostrarResultados();
                     showMenuApuesta();
                     break;
                 case 3:
+                    if (validaBalance() == false)
+                    {
+                        mostrarGananciaPerdida();
+                        break;
+                    }
                     ruleta.imprimirCasillas();
 
                     Console.WriteLine("A que color quiere apostar 'Rojo' o 'Negro'");
                     jugador.apostarPorColor(Console.ReadLine(),ruleta.esNegroRojo());
-                    Console.WriteLine($"Se obtuvo la casilla:{ruleta._numeroObtenido},Color: {}");
-                    Console.WriteLine($"Ahora tiene: {jugador.montoInicial}");
+                    Console.WriteLine($"Se obtuvo la casilla:{ruleta._numeroObtenido},Color:");
+                    mostrarResultados();
                     showMenuApuesta();
 
                     break;
                 case 4:
+                    if (validaBalance() == false)
+                    {
+                        mostrarGananciaPerdida();
+                        break;
+                    }
                     ruleta.imprimirCasillas();
 
                     Console.WriteLine("Ingrese a que le quiere apostar 'Par' o 'Impar'");
                     jugador.apostarParImpar(Console.ReadLine(), ruleta.esParImpar());
                     Console.WriteLine($"Se obtuvo la casilla:{ruleta._numeroObtenido}");
-                    Console.WriteLine($"Ahora tiene: {jugador.montoInicial}");
+                    mostrarResultados();
                     showMenuApuesta();
 
                     break;
@@ -182,6 +204,27 @@ namespace ExamenParcial1
                 Console.WriteLine("El valor ingresado no es valido, debes ingresar un numero.");
                 return false;
             }
+        }
+
+        public bool validaBalance() {
+            if (jugador.montoInicial<0)
+            {
+                Console.WriteLine("No cuenta con el balance necesario");
+                return false;
+            }
+            else
+            {
+
+                return true;
+            }
+        }
+        public void mostrarResultados() {
+            Console.WriteLine($"Ahora tiene: {jugador.montoInicial}");
+        }
+        public void mostrarGananciaPerdida() {
+            double montoInicial = 300;
+            double resultado = jugador.montoInicial- montoInicial;
+            Console.WriteLine($"Usted ha generado un total de: "+resultado);
         }
     }
 

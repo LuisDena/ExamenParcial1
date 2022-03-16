@@ -59,6 +59,8 @@ namespace ExamenParcial1.Models
 
         public void imprimirCasillas()
         {
+            Console.WriteLine("----------------------------------------------------------------------------");
+
             Console.WriteLine("Lista de Casillas");
             int posicion = 0;
             foreach (String objeto in _ruleta)
@@ -66,6 +68,7 @@ namespace ExamenParcial1.Models
                 Console.WriteLine("Casilla NO. " + posicion + " " + objeto.ToString());
                 posicion++;
             }
+            Console.WriteLine("----------------------------------------------------------------------------");
         }
 
         public int girarRuleta()
@@ -85,22 +88,23 @@ namespace ExamenParcial1.Models
             }
         }
         public string esNegroRojo() {
-            int posicion = 0;
-            string color="";
-            foreach (string item in _ruleta)
+            string color = "";
+            for (int i = 0; i <= 36; i++)
             {
-                if (posicion == numeroObtenido)
+                foreach (int item in this._casillasRojas)
                 {
-                    color = item.ToString();
-                }
-                else
-                {
-                    if (posicion<=36)
+                    if (numeroObtenido == item)
                     {
-                        posicion++;
+                        return color=("Rojo");
                     }
                 }
-                color = item.ToString();
+                foreach (int item2 in this._casillasNegras)
+                {
+                    if (numeroObtenido == item2)
+                    {
+                        return color=("Negro");
+                    }
+                }
             }
             return color;
         }
